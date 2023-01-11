@@ -1,6 +1,7 @@
 package com.singersAndSongs.singersAndSongs.services;
 
 import com.singersAndSongs.singersAndSongs.entities.Songs;
+import com.singersAndSongs.singersAndSongs.repo.SongRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,67 +9,37 @@ import java.util.List;
 
 @Service
 public class SongServiceImplmentation implements SongService {
-    List<Songs> list;
-
-    public SongServiceImplmentation() {
-        list = new ArrayList<>();
-        list.add(new Songs(2001, "Sorry", "Justin Bieber"));
-        list.add(new Songs(2002, "Senorita", "Shawn Mendes"));
+    private final SongRepo songObj;
+    public SongServiceImplmentation(SongRepo song){
+        this.songObj = song;
     }
-
     @Override
     public List<Songs> getSongsDetails() {
-        return list;
+        return songObj.getList();
     }
-
     @Override
     public List<Songs> getSongsBySingerName(String name) {
-        List<Songs> res = new ArrayList<>();
-        for(Songs s : list){
-            if(s.getSingers() == name){
-                res.add(s);
-            }
-        }
-        return res;
+        return songObj.songsBySingerName(name);
     }
 
     @Override
-    public Songs getSongBySongID(int id) {
-        Songs song =null;
-        for(Songs s : list){
-            if(s.getSongID() == id){
-               song = s;
-               break;
-            }
-        }
-        return song;
+    public Songs getSongBySongID(long id) {
+        return songObj.songBySongID(id);
     }
-
     @Override
     public Songs addNewSong(Songs song) {
-        list.add(song);
-        return song;
+        return songObj.addSong(song);
     }
-
     @Override
     public Songs updateSongDetails(Songs song) {
-        for( Songs temp : list){
-            if(temp.getSongID() == song.getSongID()){
-                temp.setSongName(song.getSongName());
-                temp.setSingers(song.getSingers());
-                return temp;
-            }
-        }
-        return null;
+        return songObj.updateSong(song);
     }
-
     @Override
-    public void deleteSong(int id) {
-        for(Songs temp : list){
-            if(temp.getSongID() == id){
-                list.remove(temp);
-                break;
-            }
-        }
+    public void deleteSong(long id) {
+        songObj.deleteSong(id);
+    }
+    @Override
+    public List<Songs> songsWtihSamePrefix(String prefix) {
+        return songObj.commonPrefix(prefix);
     }
 }

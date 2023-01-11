@@ -1,21 +1,21 @@
 package com.singersAndSongs.singersAndSongs.entities;
 
 public class Songs {
-    private int songID;
+    private long songID;
     private String songName;
     private String singers;
 
-    public Songs(int songID, String songName, String singers) {
+    public Songs(long songID, String songName, String singers) {
         this.songID = songID;
         this.songName = songName;
         this.singers = singers;
     }
 
-    public int getSongID() {
+    public long getSongID() {
         return songID;
     }
 
-    public void setSongID(int songID) {
+    public void setSongID(long songID) {
         this.songID = songID;
     }
 
